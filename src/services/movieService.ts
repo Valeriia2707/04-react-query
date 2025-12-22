@@ -10,7 +10,7 @@ interface MovieResponse {
   total_results: number;
 }
 
-export const fetchMovie = async (query: string): Promise<Movie[]> => {
+export const fetchMovie = async (query: string, page: number): Promise<MovieResponse> => {
   const response = await axios.get<MovieResponse>(
     `${BASE_URL}/search/movie`,
     {
@@ -18,7 +18,7 @@ export const fetchMovie = async (query: string): Promise<Movie[]> => {
         query,
         include_adult: false,
         language: "en-US",
-        page: 1,
+        page,
       },
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -27,6 +27,10 @@ export const fetchMovie = async (query: string): Promise<Movie[]> => {
     }
   );
 
-  return response.data.results;
+  return {
+    results: response.data.results,
+    total_pages: response.data.total_pages,
+    total_results: response.data.total_results
+  };
 };
 
