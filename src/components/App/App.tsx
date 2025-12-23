@@ -18,9 +18,10 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const queryData = useQuery({
-    queryKey: [query, page],
+    queryKey: ["movies", query, page],
     queryFn: () => fetchMovie(query, page),
     enabled: query !== "",
+    placeholderData: (previousData) => previousData,
   });
 
   const totalPages = queryData.data?.total_pages || 0;
