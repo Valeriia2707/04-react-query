@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReactPaginate from "react-paginate";
 import css from "./App.module.css";
-import toast from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
     if (queryData.data?.results.length === 0 && query !== "") {
       toast.error("No movies found for your request.");
     }
+    return;
   }, [queryData.data, query]);
 
   const handleSearch = (query: string) => {
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <div>
+      <Toaster position="top-right" />
       <SearchBar onSubmit={handleSearch} />
       {selectedMovie && (
         <MovieModal
